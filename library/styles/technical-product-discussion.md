@@ -4,7 +4,6 @@
 
 Use for engineering and product discussions, system design explanations, regulatory or
 legal context-setting, and technical decision documentation. Precision over simplification.
-Replaces what was previously called "technical tone."
 
 ---
 
@@ -67,22 +66,22 @@ Each item should answer:
 ## Example Messages
 
 **Status update to engineering audience:**
-> Revolving: Change-state and multiple-charges flows merged; pricing integration with Financing blocked pending alignment on eligibility criteria — no ETA yet. Taskforce (CC Orchestrator, Credit Core, Billing) driving delivery.
+> Feature A: Change-state and multiple-charges flows merged; pricing integration with Team X blocked pending alignment on eligibility criteria — no ETA yet. Taskforce (Service A, Service B, Service C) driving delivery.
 
 **Design discussion:**
-> The late-fee propagation logic is still open: we need to decide whether the fee trigger lives in Billing or Lateness before implementation can start. Current proposal puts it in Lateness — see [doc link] for tradeoffs. Decision needed before EOW to stay on track.
+> The processing logic is still open: we need to decide whether the trigger lives in Service A or Service B before implementation can start. Current proposal puts it in Service B — see [doc link] for tradeoffs. Decision needed before EOW to stay on track.
 
 **Dependency callout:**
-> DA ETL pipeline requires Credit Core to expose the account-level balance endpoint before data externalization can complete. Currently blocked; Credit Core estimates end of sprint. This unblocks both DA and the shuffle reads path.
+> Service A requires Service B to expose the data endpoint before data externalization can complete. Currently blocked; Service B estimates end of sprint. This unblocks both Service A and the downstream pipeline.
 
 **Risk with specifics:**
-> Beta at risk for early April. Root cause: 3-week design rework on Revolving (change-state, multiple charges) plus 2 FTE attrition on Lateness since Jan. Current trajectory puts Beta at late April / early May. Downstream: F&F (Jul '26) and D1PL (Aug '26) timelines under reassessment.
+> Release at risk for next milestone. Root cause: 3-week design rework on Feature A (change-state, multiple charges) plus 2 FTE attrition on Feature B. Current trajectory puts Release at next quarter. Downstream: Q3 target and Q4 target timelines under reassessment.
 
 ---
 
 ## Anti-Patterns
 
-- "The team is making great progress on the revolving feature" — vague, no state
+- "The team is making great progress on Feature X" — vague, no state
 - "We're working on fixing the issue" — no specifics
 - Translating technical state into business language for a technical audience: "the PR is delivered" (say "merged to main")
 - Omitting blockers to sound positive — technical audiences need accurate dependency information

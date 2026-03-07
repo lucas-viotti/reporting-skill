@@ -4,7 +4,6 @@
 
 Use for internal communication, Slack messages, sprint updates, and cross-team coordination.
 Communicates outcomes clearly and efficiently to program management and delivery audiences.
-Replaces what was previously called "business tone."
 
 ---
 
@@ -32,7 +31,7 @@ Messages follow: **Status → Context → Next step** (when a next step exists)
 ## Writing Rules
 
 1. Lead every milestone update with an action verb: Completed, Advancing, Delivered, Ready, Blocked
-2. Use business outcome language — "Billing capability ready for validation" not "billing service deployed"
+2. Use business outcome language — "[Capability] ready for validation" not "service deployed"
 3. Include "at risk" signal prominently when applicable
 4. Skip milestones with no updates
 5. US-only scope: omit geography references unless the config explicitly includes them
@@ -64,12 +63,12 @@ Messages follow: **Status → Context → Next step** (when a next step exists)
 ## Example Messages
 
 **Sprint update (Slack):**
-> Revolving: Core capabilities advancing; alignment with Financing on eligibility criteria in progress.
-> Lateness: Design finalized; implementation starting next sprint.
-> Reversals: Authorization reversal complete; confirmations in progress.
+> Feature A: Core capabilities advancing; alignment with Team X on eligibility criteria in progress.
+> Feature B: Design finalized; implementation starting next sprint.
+> Feature C: Authorization reversal complete; confirmations in progress.
 
 **Blocked item:**
-> Revolving at risk for April — design changes required rework on change state and multiple charges. Dedicated team driving delivery; May target (medium confidence).
+> Feature A at risk — design changes required rework. Dedicated team driving delivery; next milestone target (medium confidence).
 
 **On-track summary:**
 > All active milestones on track. Beta validation underway; no blockers this sprint.
@@ -78,7 +77,7 @@ Messages follow: **Status → Context → Next step** (when a next step exists)
 
 ## Anti-Patterns
 
-- "We successfully deployed the billing service to the staging environment" → too technical
+- "We successfully deployed the payments service to the staging environment" → too technical
 - "Great progress was made across all teams this sprint" → vague, no content
-- "The team implemented the revolving schema migration" → implementation detail, not outcome
+- "The team implemented the Feature X schema migration" → implementation detail, not outcome
 - Long paragraphs with multiple milestones embedded — use one entry per milestone

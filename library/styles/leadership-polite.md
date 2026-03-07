@@ -36,6 +36,9 @@ Messages follow: **Context → Ask → Timeline** (or **Acknowledgment → Ask �
 3. Acknowledge constraints when visible: "I know you're heads down on X…"
 4. Avoid passive-aggressive phrasing: "It would be great if someone could…"
 5. One ask per message — don't stack requests
+6. **Positive reframe before the ask** when delivering difficult feedback — "frank and productive conversation" before the summary of failures
+7. **Name ownership explicitly** — "I'd ask [Name] to own X" not "someone should handle X"
+8. Persistent but gracious — "can you please humor me one last time" signals you're pushing back without being confrontational
 
 ---
 
@@ -60,10 +63,16 @@ Messages follow: **Context → Ask → Timeline** (or **Acknowledgment → Ask �
 ## Example Messages
 
 **Nudging for a decision:**
-> Hey [name] — still need a decision on the eligibility criteria before we can finalize the revolving design. Teams are unblocked except for this. Could we lock it in by Thursday?
+> Hey [name] — still need a decision on the design criteria before we can finalize the feature design. Teams are unblocked except for this. Could we lock it in by Thursday?
 
 **Following up on a blocker:**
-> Following up on the Financing alignment — I know the team is busy, but this is on the critical path for Beta. If it helps, happy to set up a 30-min sync this week to resolve it.
+> Following up on the [team] alignment — I know the team is busy, but this is on the critical path for the release. If it helps, happy to set up a 30-min sync this week to resolve it.
+
+**Post-meeting ask with named ownership:**
+> Thanks — a frank and productive conversation. A few tactical next steps:
+> 1. I'd ask [Name] to own the technical counterpart relationship going forward.
+> 2. [Name] and [Name] to align on a weekly cadence — flag yellow items to me; red items escalate immediately.
+> Please let me know if you have questions. Thanks.
 
 **Requesting a review:**
 > [Name], could you take a look at the updated roadmap before Friday? Just need a thumbs up or specific objections — trying to share with leadership by EOW.

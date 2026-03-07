@@ -32,7 +32,7 @@ For longer emails: use short paragraphs, not bullets (more formal register).
 
 ## Writing Rules
 
-1. Never use internal codenames or project names visible externally (e.g., "Troy", team names)
+1. Avoid exposing internal project names or org structure to external parties
 2. Be specific about what you need without revealing internal constraints
 3. Decline politely and firmly — no need to over-explain or apologize
 4. Confirm mutual understanding: "To confirm, you're expecting X by Y"
