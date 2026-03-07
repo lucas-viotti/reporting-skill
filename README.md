@@ -38,64 +38,67 @@ The skill is powered by composable library files installed at `~/.claude/library
 
 ## Install
 
-**1. Clone or download this repo:**
+**Via the Nubank plugin marketplace (recommended):**
 ```bash
-git clone https://github.com/lucas-viotti/reporting-skill.git
-cd reporting-skill
+/plugin install reporting-skill@nubank-ai-agents-plugins
 ```
 
-**2. Install library files:**
+Then copy the bundled library files to `~/.claude/library/`:
 ```bash
 mkdir -p ~/.claude/library/{styles,templates,sources,audiences,destinations}
-cp -r library/styles/     ~/.claude/library/styles/
-cp -r library/templates/  ~/.claude/library/templates/
-cp -r library/sources/    ~/.claude/library/sources/
-cp -r library/audiences/  ~/.claude/library/audiences/
+cp -r references/library/styles/       ~/.claude/library/styles/
+cp -r references/library/templates/    ~/.claude/library/templates/
+cp -r references/library/sources/      ~/.claude/library/sources/
+cp -r references/library/audiences/    ~/.claude/library/audiences/
+cp -r references/library/destinations/ ~/.claude/library/destinations/
+```
+
+**Manual install (from this repo):**
+```bash
+git clone https://github.com/lucas-viotti/reporting-skill.git
+mkdir -p ~/.claude/library/{styles,templates,sources,audiences,destinations}
+cp -r library/styles/       ~/.claude/library/styles/
+cp -r library/templates/    ~/.claude/library/templates/
+cp -r library/sources/      ~/.claude/library/sources/
+cp -r library/audiences/    ~/.claude/library/audiences/
 cp -r library/destinations/ ~/.claude/library/destinations/
 ```
 
-**3. Register the skill in `~/.claude/settings.json`:**
-```json
-{
-  "plugins": [
-    {
-      "name": "periodic-report",
-      "path": "/path/to/reporting-skill/SKILL.md"
-    }
-  ]
-}
-```
+Then register via a local marketplace — see [Claude Code plugin docs](https://code.claude.com/docs/en/plugins).
 
-**4. (Optional) Install communication-style skill for better style rewrites:**
-See: https://github.com/lucas-viotti/communication-style
-
-**5. Copy example config to your project and customize:**
+**(Optional) Install communication-style for better style rewrites:**
 ```bash
-cp examples/report-config.md your-project/report-config.md
-# Edit with your sources, audience, and destinations
+/plugin install communication-style@nubank-ai-agents-plugins
 ```
+Or: https://github.com/lucas-viotti/communication-style
 
-## Project Config (`report-config.md`)
+## Project Config — Required for real use
 
-Place a `report-config.md` in your project directory. The skill discovers it automatically.
+> **The skill needs a `report-config.md` in your project to know where to pull data and where to publish.** Without it, the skill falls back to interactive mode — functional, but you'll be asked the same questions every time.
+
+**Recommended: run `/new-report` to set up interactively.** The command asks you questions and writes the config file (and a dedicated slash command) for you.
+
+Or create `report-config.md` manually in your project root:
 
 ```yaml
 report_type: biweekly
 audience: sprint-review-internal
 
 sources:
-  - type: confluence-page
-    url: https://your-instance.atlassian.net/wiki/spaces/SPACE/pages/12345/Sprint+Reports
   - type: jira-sprint
     mapping: milestone_epic_mapping.md
+  - type: confluence-page
+    url: https://your-instance.atlassian.net/wiki/spaces/SPACE/pages/12345/
   - type: google-calendar-meeting
     meeting_name: "Team Biweekly Review"
     lookback_days: 14
 
 archive:
-  path: path/to/archive-file
+  path: reports/archive
 
 destinations:
+  - type: markdown-file
+    path: report-output.md
   - type: confluence-page
     space: MYSPACE
     parent: "Sprint Updates"
@@ -103,7 +106,9 @@ destinations:
     channel: "#team-updates"
 ```
 
-See `examples/report-config.md` for a complete annotated example.
+See `examples/report-config.md` for a fully annotated version with all available options.
+
+The skill discovers `report-config.md` by searching from the current directory upward — place it at the project root and it works from any subdirectory.
 
 ## Styles
 
@@ -129,6 +134,10 @@ reporting-skill/
 │   ├── sources/                      ← Data source adapters
 │   ├── audiences/                    ← Audience profiles
 │   └── destinations/                 ← Output destination adapters
+├── commands/
+│   └── new-report.md                 ← /new-report guided setup wizard
+├── references/
+│   └── report-command-template.md   ← Template for generated per-report commands
 └── examples/
     └── report-config.md              ← Annotated example config
 ```
