@@ -40,7 +40,7 @@ The skill is powered by composable library files installed at `~/.claude/library
 
 **1. Clone or download this repo:**
 ```bash
-git clone https://github.com/lucasviotti/reporting-skill.git
+git clone https://github.com/lucas-viotti/reporting-skill.git
 cd reporting-skill
 ```
 
@@ -67,7 +67,7 @@ cp -r library/destinations/ ~/.claude/library/destinations/
 ```
 
 **4. (Optional) Install communication-style skill for better style rewrites:**
-See: https://github.com/lucasviotti/communication-style
+See: https://github.com/lucas-viotti/communication-style
 
 **5. Copy example config to your project and customize:**
 ```bash
@@ -135,4 +135,4 @@ reporting-skill/
 
 ## GitHub
 
-https://github.com/lucasviotti/reporting-skill
+https://github.com/lucas-viotti/reporting-skill
