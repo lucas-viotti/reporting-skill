@@ -38,8 +38,8 @@ and internal stakeholders following sprint execution reviews.
 
 ## Notes
 
-This audience profile is designed for the Project Troy / Destination Architecture biweekly
-execution review. It assumes US Credit Card delivery context.
+This audience profile is designed for biweekly execution reviews delivered to program
+management and internal stakeholders.
 
-To adapt for other projects: update `include`/`exclude` constraints in a project-specific
+To adapt for a specific project: update `include`/`exclude` constraints in a project-specific
 audience file, or override via `report-config.md`.

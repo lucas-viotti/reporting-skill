@@ -16,8 +16,8 @@ Creates a new Confluence page or updates an existing one with the report content
 
 ```yaml
 - type: confluence-page
-  space: C3PDA                          # Confluence space key
-  parent: "Destination Architecture Updates"  # parent page title
+  space: MYSPACE                        # Confluence space key
+  parent: "Sprint Updates"              # parent page title
 ```
 
 ---

@@ -21,7 +21,7 @@ Reads local meeting transcript and notes files from a directory, filtered to the
 
 ```yaml
 - type: meeting-transcripts
-  path: meetings/destination-architecture/biweekly-execution-review/
+  path: meetings/team-name/meeting-type/
   pattern: "YYYY_MM_DD - *.md"
 ```
 

@@ -14,7 +14,7 @@ Posts the report as a Slack message to a channel or DM.
 
 ```yaml
 - type: slack-channel
-  channel: "#da-execution-review"   # channel name or user ID for DM
+  channel: "#team-updates"          # channel name or user ID for DM
 ```
 
 ---
@@ -38,16 +38,15 @@ Posts the report as a Slack message to a channel or DM.
 ```
 *Sprint Feb 23 - Mar 6, 2026*
 
-Beta testing for revolving and lateness is delayed (see risks below)
+Feature A delivery delayed (see risks below)
 
-*Revolving*: Completed design for change state and multiple charges; implementation in progress.
-*Lateness*: Design finalized; implementation starting next sprint.
-*Close complete bill*: Minimum payment warning ready for integrations.
-*Reversals*: Authorization reversal complete; confirmations in progress.
+*Feature A*: Design finalized; implementation in progress.
+*Feature B*: Integration complete; validation starting next sprint.
+*Feature C*: Core capability delivered; end-to-end testing underway.
 
 *Challenges & Path to Green*
-- Beta milestone at risk for early April. Early May is the working target (medium confidence).
-- Path to Green: Updated roadmap publishing Feb 27.
+- Feature A at risk for target date. Revised target: end of next sprint (medium confidence).
+- Path to Green: Updated roadmap publishing this week.
 ```
 
 ---

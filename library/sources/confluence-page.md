@@ -26,7 +26,7 @@ For `searchConfluenceUsingCql` (when searching within a parent page):
 
 ```yaml
 - type: confluence-page
-  url: https://nubank.atlassian.net/wiki/spaces/SPACE/pages/12345/Page+Title
+  url: https://yourcompany.atlassian.net/wiki/spaces/SPACE/pages/12345/Page+Title
 ```
 
 ---
