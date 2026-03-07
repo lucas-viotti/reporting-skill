@@ -22,23 +22,29 @@ divider slides to locate the section matching the target date range.
 ```yaml
 - type: google-slides
   presentation_url: "https://docs.google.com/presentation/d/<ID>/edit"
-  divider_pattern: "MMM DD - MMM DD, YYYY"   # e.g. "Feb 23 - Mar 6, 2026"
+  divider_pattern: "MMM DD - MMM DD, YYYY"   # date-range format, e.g. "Feb 23 - Mar 6, 2026"
+  # OR: a fixed anchor string when the deck uses single dates, e.g.:
+  # divider_pattern: "Leadership bi-weekly sync"  # anchor text; date is "MMMM Do, YYYY" on same slide
 ```
-
-> **TODO:** Fill in `presentation_url` with the actual DA Leadership Updates deck URL before using this source.
 
 ---
 
 ## Extraction Instructions
 
-> **STUB:** This source adapter is partially implemented. The text extraction works;
-> the date-range section locating requires a TODO step.
-
 1. Call `slides_getText` to fetch all slide text content from the presentation
-2. Parse the text to find divider slides — slides whose content matches `divider_pattern`
-3. Find the divider slide whose date range overlaps with the sprint date range
-4. Extract text from all slides between that divider and the next divider
-5. From the extracted section, pull:
+2. Identify divider slides using one of two modes based on `divider_pattern`:
+
+   **Date-range mode** (pattern contains date placeholders like `MMM DD`):
+   - Find slides whose text matches the pattern as a date range
+   - Select the divider whose range overlaps the sprint date range
+
+   **Anchor mode** (pattern is a static string with no date placeholders):
+   - Find all slides containing the exact anchor string (e.g. `"Leadership bi-weekly sync"`)
+   - Each such slide also contains a single date in the format `"MMMM Do, YYYY"` (e.g. `"January 22nd, 2026"`)
+   - Parse that date and select the slide whose date is the most recent one on or before the sprint end date
+
+3. Extract text from all slides between the selected divider and the next divider
+4. From the extracted section, pull:
    - Milestone status updates
    - Risk flags or escalations
    - Key decisions or announcements
