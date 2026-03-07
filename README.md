@@ -38,22 +38,6 @@ The skill is powered by composable library files installed at `~/.claude/library
 
 ## Install
 
-**Via the Nubank plugin marketplace (recommended):**
-```bash
-/plugin install reporting-skill@nubank-ai-agents-plugins
-```
-
-Then copy the bundled library files to `~/.claude/library/`:
-```bash
-mkdir -p ~/.claude/library/{styles,templates,sources,audiences,destinations}
-cp -r references/library/styles/       ~/.claude/library/styles/
-cp -r references/library/templates/    ~/.claude/library/templates/
-cp -r references/library/sources/      ~/.claude/library/sources/
-cp -r references/library/audiences/    ~/.claude/library/audiences/
-cp -r references/library/destinations/ ~/.claude/library/destinations/
-```
-
-**Manual install (from this repo):**
 ```bash
 git clone https://github.com/lucas-viotti/reporting-skill.git
 mkdir -p ~/.claude/library/{styles,templates,sources,audiences,destinations}
@@ -64,13 +48,10 @@ cp -r library/audiences/    ~/.claude/library/audiences/
 cp -r library/destinations/ ~/.claude/library/destinations/
 ```
 
-Then register via a local marketplace — see [Claude Code plugin docs](https://code.claude.com/docs/en/plugins).
+Then register the skill — see [Claude Code plugin docs](https://code.claude.com/docs/en/plugins).
 
 **(Optional) Install communication-style for better style rewrites:**
-```bash
-/plugin install communication-style@nubank-ai-agents-plugins
-```
-Or: https://github.com/lucas-viotti/communication-style
+https://github.com/lucas-viotti/communication-style
 
 ## Project Config — Required for real use
 
