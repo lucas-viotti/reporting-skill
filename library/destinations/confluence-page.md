@@ -2,7 +2,9 @@
 
 Creates a new Confluence page or updates an existing one with the report content.
 
-Uses a **hybrid approach**: MCP Atlassian tools for reading, a Clojure converter library for writing. This split exists because the MCP write tools only accept markdown or ADF (Atlassian Document Format) — both are lossy for advanced Confluence content like panels, mermaid diagrams, and wide tables. The Clojure converter sends raw Confluence storage format HTML directly to the REST API, preserving all formatting.
+Supports two write paths:
+- **Recommended:** MCP Atlassian tools for reading + a Clojure converter library for writing. The converter sends raw Confluence storage format HTML directly to the REST API, preserving all formatting (tables, panels, mermaid diagrams).
+- **Fallback:** MCP Atlassian tools for both reading and writing. Simpler setup, but MCP write tools only accept markdown or ADF (Atlassian Document Format), which is lossy for advanced content.
 
 ---
 
@@ -24,43 +26,56 @@ If no, direct them to generate one:
   ```
 - Restart shell or run `source ~/.zshrc`
 
-### 2. Clojure Converter Library
-
-Verify the following are available:
-- A Clojure library with `convert`, `create!`, `publish!`, and `upload-attachment!` functions
-- A Clojure REPL accessible via the `clojure_eval` MCP tool or a standalone nREPL connection
-
-### 3. MCP Atlassian Tools
+### 2. MCP Atlassian Tools
 
 Verify that MCP Atlassian tools are connected (these handle OAuth automatically):
 - `searchConfluenceUsingCql`
 - `getConfluencePage`
+- `createConfluencePage`
+- `updateConfluencePage`
+
+This is sufficient for the fallback write path. For the recommended path, continue to step 3.
+
+### 3. Clojure Converter Library (recommended, for lossless writes)
+
+Search your organization's GitHub repositories for a Confluence converter library (try searching for "confluency" or "confluence" in your org's repos). The library should provide these functions:
+- `convert` — markdown → Confluence storage format HTML
+- `create!` — create a new page via REST API
+- `publish!` — update an existing page via REST API
+- `upload-attachment!` — attach files (e.g., mermaid diagram sources) to a page
+
+Also verify:
+- A Clojure REPL is accessible via the `clojure_eval` MCP tool or a standalone nREPL connection
+- The API token from step 1 is set (the converter uses it directly for REST API calls)
 
 ---
 
 ## Prerequisites
 
 Before each publish operation, confirm:
-- MCP Atlassian tools are available (for read operations)
-- Clojure converter library is loaded in a REPL (for write operations)
+- MCP Atlassian tools are available (for read operations; also for writes if using the fallback path)
 - `CONFLUENCE_USER_EMAIL` and `CONFLUENCE_API_TOKEN` environment variables are set in the shell
+
+If using the recommended path (Clojure converter):
+- Clojure converter library is loaded in a REPL
 
 ---
 
 ## Tool Roles
 
-| Operation | Tool | Examples |
+| Operation | Recommended (Clojure converter) | Fallback (MCP only) |
 |-----------|------|----------|
-| **Read** | MCP Atlassian | `searchConfluenceUsingCql`, `getConfluencePage` |
-| **Write** | Clojure converter (via REPL) | `convert`, `create!`, `publish!`, `upload-attachment!` |
+| **Read** | MCP: `searchConfluenceUsingCql`, `getConfluencePage` | Same |
+| **Write** | REPL: `convert`, `create!`, `publish!`, `upload-attachment!` | MCP: `createConfluencePage`, `updateConfluencePage` |
+| **Mermaid diagrams** | Upload attachment + `mermaid-cloud` macro | Code block with source (no rendering) |
 
-Why not MCP for writes? The MCP `createConfluencePage` and `updateConfluencePage` tools accept only markdown or ADF, which causes:
+**Why prefer the Clojure converter?** The MCP write tools accept only markdown or ADF, which causes:
 - Tables get narrow layout (`data-layout="default"`) instead of wide/full-width
 - Filenames like `report-config.md` in body text get auto-linked as URLs
 - Panels (info/warning/note) are lost in markdown round-trips
 - Mermaid diagrams are completely stripped
 
-The Clojure converter bypasses this by sending raw storage format HTML directly to the Confluence REST API.
+The Clojure converter bypasses this by sending raw storage format HTML directly to the Confluence REST API. Use it when available; fall back to MCP writes when it's not.
 
 ---
 
@@ -77,6 +92,8 @@ The Clojure converter bypasses this by sending raw storage format HTML directly 
 ## Workflows
 
 ### Creating a New Page
+
+#### With Clojure converter (recommended)
 
 1. **Resolve parent page** (MCP):
    - Search via CQL: `space = "<space>" AND title = "<parent-title>"`
@@ -108,7 +125,25 @@ The Clojure converter bypasses this by sending raw storage format HTML directly 
    ```
    See [Adding Mermaid Diagrams](#adding-mermaid-diagrams) for the exact storage format pattern.
 
+#### With MCP tools (fallback)
+
+1. **Resolve parent page** (MCP):
+   - Search via CQL: `space = "<space>" AND title = "<parent-title>"`
+   - Extract the `parent-id` from the search result
+
+2. **Create page** (MCP):
+   - Call `createConfluencePage` with:
+     - `spaceKey`: from config
+     - `title`: page title
+     - `parentId`: resolved from step 1
+     - `content`: report content in **markdown** (the tool converts it internally)
+   - **Note:** This path cannot send raw storage format HTML. Content will be converted by Confluence's built-in markdown parser, which may lose formatting (see [Tool Roles](#tool-roles) for known limitations).
+
+3. **Mermaid diagrams:** Cannot be rendered natively via this path. Instead, embed the mermaid source in a code block wrapped in an expand macro with a text description. See the fallback pattern in [Images & Diagrams](#images--diagrams).
+
 ### Updating an Existing Page
+
+#### With Clojure converter (recommended)
 
 1. **Find the page** (MCP):
    - Search via CQL: `space = "<space>" AND title = "<page-title>"`
@@ -129,9 +164,24 @@ The Clojure converter bypasses this by sending raw storage format HTML directly 
    (publish! client page-id title html)
    ```
 
+#### With MCP tools (fallback)
+
+1. **Find the page** (MCP):
+   - Search via CQL: `space = "<space>" AND title = "<page-title>"`
+   - Extract the `page-id` from the result
+
+2. **Read current content** (MCP):
+   - Call `getConfluencePage` to read the existing page content
+
+3. **Update page** (MCP):
+   - Call `updateConfluencePage` with the `page-id` and updated content in **markdown**
+   - Same formatting limitations as the create fallback apply
+
 ### Adding Mermaid Diagrams
 
-Mermaid diagrams are rendered natively in Confluence using the `mermaid-cloud` extension. The workflow:
+Mermaid diagrams are rendered natively in Confluence using the `mermaid-cloud` extension. This requires the Clojure converter path (for attachment upload).
+
+#### With Clojure converter
 
 1. **Upload** the mermaid source text as a page attachment (filename should be descriptive, e.g., `pipeline-diagram`)
 2. **Insert** the `mermaid-cloud` macro in the storage format HTML, referencing the attachment filename
@@ -147,6 +197,10 @@ The storage format pattern for a mermaid-cloud macro:
 ```
 
 Supported diagram types include flowcharts (`graph LR`, `graph TD`) and sequence diagrams (`sequenceDiagram`).
+
+#### Without Clojure converter (fallback)
+
+Mermaid diagrams cannot be rendered natively without attachment upload. Instead, embed the mermaid source in a code block so the diagram definition is preserved for manual rendering or future conversion. See the fallback pattern in [Images & Diagrams](#images--diagrams).
 
 ---
 
